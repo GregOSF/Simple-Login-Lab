@@ -55,13 +55,16 @@ app.get('/signup', function (req, res) {
 app.get('/profile', function (req, res) {
 	// finds user currently logged in
 	req.currentUser (function (err, user) {
-		res.send('Welcome ' + User.email)
+		res.send('Welcome ' + user.email)
 	});
 });
 
 app.get('/login', function (req, res) {
-	res.render('login');
-});
+	req.currentUser(function (err, user) {
+		res.render('login');
+	});
+	});
+	
 
 // user submits the signup form
 app.post ('/users', function (req, res) {
