@@ -59,6 +59,10 @@ app.get('/profile', function (req, res) {
 	});
 });
 
+app.get('/login', function (req, res) {
+	res.render('login');
+});
+
 // user submits the signup form
 app.post ('/users', function (req, res) {
 
