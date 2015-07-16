@@ -29,26 +29,22 @@ app.use(session ({
 app.use ('/', function (req, res, next) {
 	// saves userID in session for logged in user
 	req.login = function (user) {
-		req.session.userID = user.id;
+		req.session.userId = user.id;
 	};
 	// finds user currently logged in based on 'session.userId'
-	req.currentuser = function (callback) {
+	req.currentUser = function (callback) {
 		User.findOne({_id: req.session.userId}, function (err, user) {
-			req.user - user;
+			req.user = user;
 			callback(null, user);
 		});
 	};
 	//destroy 'session.userId' to log out user
-	req.logout - function () {
+	req.logout = function () {
 		req.session.userId = null;
 		req.user = null;
 	};
 	next();
 });
-
-
-
-
 
 // signup route with placeholder response
 app.get('/signup', function (req, res) {
@@ -58,8 +54,8 @@ app.get('/signup', function (req, res) {
 // user profile page
 app.get('/profile', function (req, res) {
 	// finds user currently logged in
-	req.currentuser (function (err, user) {
-		res.send('Welcome ' + user.email);
+	req.currentUser (function (err, user) {
+		res.send('Welcome ' + User.email)
 	});
 });
 
@@ -83,8 +79,8 @@ app.post('/login', function (req, res) {
 	// call authenticate function to check if password user entered is correct
 	User.authenticate(userData.email, userData.password, function (err, user) {
 		// saves user id to session
-		res.login(user);
-
+		req.login(user);
+		// redirects to user profile
 		res.redirect('/profile');
 	});
 });
